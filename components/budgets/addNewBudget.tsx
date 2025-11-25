@@ -7,6 +7,7 @@ import { app } from "@/lib/firebaseConfig";
 import { addDoc, collection, getFirestore, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
 import { maximum } from "zod/v4-mini";
+import { Spinner } from "../ui/spinner";
 
 interface AddNewBudgetProps{
     onClose?: () => void;
@@ -141,7 +142,8 @@ async function addNewBudget(data:Budget){
                     </span> }
                 </div>
 
-                <button type="submit" className='w-full h-[53px] bg-[#201F24] rounded-[8px] text-white text-[14px] font-bold  ' >Add Budget </button>
+                <button type="submit" className='w-full h-[53px] bg-[#201F24] rounded-[8px] text-white text-[14px] font-bold  ' >
+                     {loading? <Spinner /> :'Add Budget'} </button>
             </form>
        
     )
