@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from "sonner";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 export default function SignUpForn(){
 
 const userSchema =z.object({
@@ -29,7 +30,17 @@ const router = useRouter()
     setLoading(true);
     try{
         const auth = getAuth(app);
-        await createUserWithEmailAndPassword(auth, data.email, data.password);
+        const db = getFirestore(app)
+       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+        const userId = userCredential.user.uid;
+
+        // store user in database
+        await setDoc(doc(db, "users", userId), {
+            name: data.name,
+            email: data.email,
+            createdAt: new Date().toISOString(),
+        })
+
         toast.success('Account created successfully!');
         router.push('/login');
     }catch(error){
@@ -40,6 +51,7 @@ const router = useRouter()
         setLoading(false);
     }
   }
+
 
     return(
         <div className="w-3/5 flex  items-center justify-center max-lg:w-4/5 " >

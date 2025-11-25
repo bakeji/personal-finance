@@ -4,11 +4,12 @@ import Link from "next/link"
 import { usePathname } from "next/navigation";
 export default function Menu(){
     const navLinks =[
-        {img: '/overview.png', link: '/', linkName:'Overview' },
+        {img: '/overview.png', activeImg:'/overview-active.png', link: '/', linkName:'Overview' },
         // {img: '/transactions.svg', link: '/transactions', linkName:'Transactions' },
-        {img: '/budgets.png', link: '/budget', linkName:'Budget' },
-        {img: '/pots.png', link: '/pots', linkName:'Pots' },
-        {img: '/bills.png', link: '/bills', linkName:'Recurring Bills' },
+        {img: '/budgets.png', activeImg:'/budget-active.png', link: '/budget', linkName:'Budget' },
+        {img: '/pots.png', activeImg:'/pots-active.png', link: '/pots', linkName:'Pots' },
+        {img: '/bills.png', activeImg:'/bills-active.png', link: '/bills', linkName:'Recurring Bills' },
+        
     ]
     const path = usePathname()
 
@@ -26,7 +27,7 @@ export default function Menu(){
                      ${path===nav.link? 'bg-[#F8F4F0] text-[#201F24] border-l-4 ' : 
                     'bg-transparent text-[#B3B3B3]  ' }
                      flex items-center h-1 rounded-r-[12px] max-lg:h-full  max-lg:border-none max-lg:w-fit border-[#277C78] gap-4 max-lg:gap-2   max-lg:flex-col max-lg:rounded-br-none max-lg:rounded-t-[16px] max-lg:p-2 max-md:w-full max-md:justify-center `}>
-                        <Image src={nav.img} width={24} height={24} alt="icons" />
+                        <Image src={path===nav.link? nav.activeImg : nav.img } width={24} height={24} alt="icons" />
                         <Link className="font-bold text-[16px] max-md:hidden " href={nav.link}>{nav.linkName}</Link>
                     </div>
                     ))}

@@ -25,8 +25,7 @@ export default function LoginForm(){
 
     async function onSubmit(data:User){
         setLoading(true);
-        console.log(data)
-
+        
         try{
             const auth = getAuth(app);
             await signInWithEmailAndPassword(auth, data.email, data.password);

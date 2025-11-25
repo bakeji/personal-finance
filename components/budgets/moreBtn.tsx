@@ -4,16 +4,27 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
   import Image from "next/image";
+import EditBudgetModal from "./editBudgetModal";
+import DeleteBudgetModal from "./deleteBudgetModal";
+import { useState } from "react";
 
-export default function MoreBtn(){
+  interface MoreBtnProps {
+    budgetId: string;
+}
+
+
+
+export default function MoreBtn({ budgetId }: MoreBtnProps){
+ 
+
     return(
-        <Popover>
-            <PopoverTrigger>
-                <button> <Image src='/icon-ellipsis.svg' width={13} height={4} alt="icons" /> </button>
+        <Popover  >
+            <PopoverTrigger className="cursor-pointer">
+                 <Image src='/icon-ellipsis.svg' width={13} height={4} alt="icons" /> 
             </PopoverTrigger>
-            <PopoverContent className=' flex flex-col items-center justify-center ' >
-                <button>Edit Budget</button>
-                <button>Delete Budget</button>
+            <PopoverContent className=' flex flex-col items-start justify-center  w-full ' >
+                <EditBudgetModal  budgetId={budgetId} />
+                <DeleteBudgetModal budgetId={budgetId}  />
         
             </PopoverContent>
         </Popover>

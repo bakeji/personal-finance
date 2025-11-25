@@ -19,14 +19,16 @@ export default function(){
                 
                 </div>
 
-                <div className="flex w-full gap-4  mt-10" >
-                    <div className="w-2/5 bg-white p-2 rounded-xl ">
+                <div className="flex w-full gap-4  mt-10  max-lg:flex-col max-w-md:flex-row  " >
+                    <div className="w-2/5 bg-white p-2 rounded-xl max-lg:w-full  max-lg:flex  ">
                         <div className='relative h-[300px]' >
                             <Chart/>
                         </div>
                         <SpendingSummary/>
                     </div>
-                    <div className="w-1/2 ">
+
+
+                    <div className="w-1/2 max-lg:w-full  ">
                         <BudgetType />
                     </div>
                    
