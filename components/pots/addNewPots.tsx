@@ -1,4 +1,4 @@
-import{z} from "zod"
+import {z} from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -6,25 +6,16 @@ import { getAuth } from "firebase/auth";
 import { app } from "@/lib/firebaseConfig";
 import { addDoc, collection, getFirestore, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
-import { maximum } from "zod/v4-mini";
+import { Target } from "lucide-react";
 import { Spinner } from "../ui/spinner";
 
-interface AddNewBudgetProps{
+interface AddNewPotProps{
     onClose?: () => void;
 }
 
-export default function AddNewBudget( {onClose}: AddNewBudgetProps ){
-
-    const categories=[
-    {id:1, category: 'Entertainment'},
-    {id:2, category:'Bills'},
-    {id:3, category:'Grocery'},
-    {id:4, category:'Dining Out'},
-    {id:5, category:'Transportation'},
-    {id:6, category:'Personal care' },
-    {id:7, category:'Education' }
-]
-const themes =[
+export default function AddNewPots({onClose}: AddNewPotProps){
+ 
+    const themes =[
     {id:1, colorCode:'#277C78', color: 'Green', used:false},
     {id:2, colorCode:'#F2CDAC', color:'Yellow', used:false },
     {id:3, colorCode:'#82C9D7', color:'Cyan', used:false },
@@ -34,46 +25,49 @@ const themes =[
     {id:7, colorCode:'#597C7C', color:'Turquoise', used:false },
 ]
 
-const [loading, setLoading] = useState(false);
-
-const budgetSchema = z.object({
-    category: z.string().min(1, "Category is required"),
-    maximumSpend: z.number().min(1, "Maximum spend must be greater than 0"),
+const potsSchema=z.object({
+    potsName: z.string().min(1, "pot name is required"),
+    target: z.number().min(1, "Maximum spend must be greater than 0"),
     theme: z.string().min(1, "Theme is required"),
 })
 
-type Budget = z.infer<typeof budgetSchema>;
+type Pots = z.infer<typeof potsSchema>
 
-const {register, handleSubmit, formState:{errors}} =  useForm<Budget>({
-    resolver: zodResolver(budgetSchema)
+
+const {register, handleSubmit, formState:{errors}} =  useForm<Pots>({
+    resolver: zodResolver(potsSchema)
 })
 
-async function addNewBudget(data:Budget){
+const [loading, setLoading] = useState(false)
+
+async function addNewPot(data:Pots){
+    console.log('clicked')
     setLoading(true);
     try{
         const auth = getAuth(app)
         const db = getFirestore(app)
         const user = auth.currentUser;
         if(!user){
-            toast.error('you must be logged in to add a budget');
+            toast.error('you must be logged in to add a pot');
             return;
         }
 
         // get color code for selectedd theme
         const selectedTheme = themes.find((theme)=> theme.color === data.theme);
 
-        // add budget to firestore
-        await addDoc(collection(db, 'users', user.uid, 'budgets'), {
-            category: data.category,
-            maximumSpend:data.maximumSpend,
+        // add pot to firestore
+        await addDoc(collection(db, 'users', user.uid, 'pots'), {
+            potsName: data.potsName,
+            target:data.target,
             theme:data.theme,
             colorCode: selectedTheme ? selectedTheme.colorCode : '',
-            currentSpend: 0,
+            currentSaved:  0,
             createdAt:serverTimestamp()
         })
 
-        toast.success('Budget added successfully!');
+        toast.success('pot added successfully!');
         onClose?.();
+
     }catch(error){
         const errorMessage = (error as Error).message;
         toast.error(`Error: ${errorMessage}`);
@@ -84,43 +78,38 @@ async function addNewBudget(data:Budget){
 
 }
 
-    return(
-       
-            <form className="flex flex-col gap-4 " onSubmit={handleSubmit(addNewBudget)} >
+return(
+                <form className="flex flex-col gap-4 " onSubmit={handleSubmit(addNewPot)}  >
 
                 <div className='flex flex-col gap-2 '>
-                    <label className=" font-bold text-[#696868] text-[12px] " htmlFor="category"> Budget Category</label>
-                    <select className="p-4 border-[#98908B] py-2 border-1 rounded-[8px]  " 
-                     id="category"
-                      {...register('category')}
-                      >
-                       <option value="">select a category</option>
-                        { categories.map((cate)=>(
-                        <option key={cate.id} value={cate.category}>{cate.category}</option>
-                    )) }
+                    <label className=" font-bold text-[#696868] text-[12px] " htmlFor="pot">Pot Name</label>
+                    <input  
+                    className=" w-full outline-none p-4 py-2 border-[#98908B] border-1 rounded-[8px] "  
+                    type="text" 
+                     id="pot" 
+                     {...register('potsName')}
+                     />
 
-                    </select>
-
-                    {errors.category && <span className="text-red-500 text-xs">
-                        {errors.category.message}
-                    </span> }
+                     {errors.potsName && <span>
+                        {errors.potsName.message}
+                     </span> }
                 </div>
 
                 <div className='flex flex-col gap-2 '>
-                    <label className=" font-bold text-[#696868] text-[12px] "  htmlFor="maximumSpend"> Maximum Spend</label>
-                    <div className="p-4 border-[#98908B] border-1 h-8 flex items-center gap-2  rounded-[8px] " >
+                    <label className=" font-bold text-[#696868] text-[12px] "  htmlFor="target">Target</label>
+                    <div className="p-4 border-[#98908B] border-1 py-2 flex items-center gap-2  rounded-[8px] " >
                         <span className=" font-[400] text-[14px] text-[#98908B] " >$ </span>
                         <input className=" w-full border-none outline-none bg-transparent " 
                         type="number" 
-                        id="maximumSpend"
+                        id="target"
                         placeholder="e.g 2000" 
-                        {...register('maximumSpend', {valueAsNumber:true})}
+                        {...register('target', {valueAsNumber:true})}
                         />
                     </div>    
 
-                    {errors.maximumSpend && 
+                    {errors.target && 
                     <span className="text-red-500 text-xs">
-                        {errors.maximumSpend.message}
+                        {errors.target.message}
                     </span> }
                 </div>
 
@@ -142,9 +131,9 @@ async function addNewBudget(data:Budget){
                     </span> }
                 </div>
 
-                <button type="submit" className='w-full flex items-center justify-center h-[53px] bg-[#201F24] rounded-[8px] text-white text-[14px] font-bold  ' >
-                     {loading? <Spinner /> :'Add Budget'} </button>
+                <button type="submit" className='w-full cursor-pointer flex items-center justify-center h-[53px] bg-[#201F24] rounded-[8px] text-white text-[14px] font-bold  ' >
+                    {loading? <Spinner/>:  ' Add pot'} </button>
             </form>
-       
-    )
+)
+
 }

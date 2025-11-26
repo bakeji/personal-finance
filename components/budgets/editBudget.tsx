@@ -94,15 +94,6 @@ async function handleEditBudget(data: EditBudget){
             </div>
         )
     }
-
-     if (!budget) {
-        return (
-            <div className="flex items-center justify-center p-8">
-                <p className="text-red-500">Budget not found</p>
-            </div>
-        );
-    }
-
     
         return(
             <div>

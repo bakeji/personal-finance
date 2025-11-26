@@ -2,6 +2,7 @@
 import { Progress } from "@/components/ui/progress"
 import MoreBtn from "./moreBtn"
 import { useBudget } from "@/lib/hooks/useBudjet"
+import { Spinner } from "../ui/spinner";
 
 
 
@@ -11,7 +12,7 @@ export default function BudgetType(){
     if(loading){
         return(
             <div className="w-full flex items-center justify-center p-8">
-                <p className="text-[#696868]">Loading budgets...</p>
+                <Spinner />
             </div>
         )
     }

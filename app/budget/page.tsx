@@ -5,7 +5,7 @@ import SpendingSummary from "@/components/budgets/spendingSummary";
 import Menu from "@/components/menu";
 import Chart from "@/components/overviewPage/chart";
 
-export default function(){
+export default function Budget(){
     return(
         <div className="flex min-h-screen w-full  max-lg:flex-col-reverse">
              <div className="w-1/4 top-0 sticky h-screen max-lg:w-full max-lg:h-auto ">
