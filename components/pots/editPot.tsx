@@ -97,8 +97,9 @@ async function handleEditPot(data: EditPot){
                 <div className='flex flex-col gap-2 '>
                     <label className=" font-bold text-[#696868] text-[12px] " htmlFor="pots-name">Pot Name</label>
                     <input 
+                    className="w-full p-4 py-2 outline-none bg-transparent rounded-[8px]  border-[#98908B] border"
                     type="text"
-                
+                 
                     id="pots-name" 
                     {...register('potsName')}
                     />
@@ -110,7 +111,7 @@ async function handleEditPot(data: EditPot){
 
                 <div className='flex flex-col gap-2 '>
                     <label className=" font-bold text-[#696868] text-[12px] "  htmlFor="maximumSpend"> Maximum Spend</label>
-                    <div className="p-4 border-[#98908B] border-1 h-8 flex items-center gap-2  rounded-[8px] " >
+                    <div className="p-4 border-[#98908B] border-1 py-2 flex items-center gap-2  rounded-[8px] " >
                         <span className=" font-[400] text-[14px] text-[#98908B] " >$ </span>
                         <input className=" w-full border-none outline-none bg-transparent " 
                         type="number" 

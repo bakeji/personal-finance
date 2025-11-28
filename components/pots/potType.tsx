@@ -2,6 +2,8 @@ import { usePot } from "@/lib/hooks/usePots";
 import MoreBtn from "./morebtn";
 import { Progress } from "@/components/ui/progress"
 import { Spinner } from "../ui/spinner";
+import AddMoneyModal from "./addMoney";
+import WithdrawMoneyModal from "./withdrawMoney";
 
   interface MoreBtnProps {
     potId: string;
@@ -67,8 +69,8 @@ export default function PotType({potId}:MoreBtnProps ){
                 </div>
 
                 <div className="flex gap-4 justify-between p-2">
-                    <button className="w-[50%] cursor-pointer bg-[#F8F4F0] rounded-[8px] text-[14px] font-[700] p-4 text-center " >+ Add money</button>
-                    <button className="w-[50%] cursor-pointer bg-[#F8F4F0] rounded-[8px] text-[14px]  font-[700] p-4 text-center " >Withdraw</button>
+                    <AddMoneyModal potId={pot.id} />
+                    <WithdrawMoneyModal potId={pot.id} />
                 </div>
 
                 

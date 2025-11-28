@@ -25,7 +25,7 @@ export default function MoreBtn( {potId}:MoreBtnProps){
             </PopoverTrigger>
             <PopoverContent className=' flex flex-col items-start justify-center  w-full ' >
                 <EditPotModal potId={potId} />
-               <DeletePotModal />
+               <DeletePotModal potId={potId} />
         
             </PopoverContent>
         </Popover>

@@ -38,7 +38,7 @@ export default function DeleteBudgetModal({budgetId}:DeleteBudgetModalProps){
   <DialogTrigger className="p-2 text-[#C94736] font-[400] w-full  text-[14px] cursor-pointer " >Delete Budget</DialogTrigger>
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Delete Entertainment</DialogTitle>
+      <DialogTitle>Delete '{budget?.category}'</DialogTitle>
       <DialogDescription className=" mt-3">
         Are you sure you want to delete this budget? This action cannot be reversed, and all the data inside it will be removed forever.
       </DialogDescription>
