@@ -16,23 +16,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
 
-interface AddMoney{
+interface WithdrawMoney{
     potId: string
     
 }
 
-export default function WithdrawMoneyModal({potId}:AddMoney){
-const {pot, addMoney} = useSinglePot(potId)
+export default function WithdrawMoneyModal({potId}:WithdrawMoney){
+const {pot, withdrawMoney} = useSinglePot(potId)
 const [open, setOpen] = useState(false);
 
-const addMoneySchema = z.object({
+const withdrawMoneySchema = z.object({
     amount:z.number().min(1, "Amount must be greater than 0"),
 })
 
-type AddMoney = z.infer<typeof addMoneySchema>
+type WithdrawMoney = z.infer<typeof withdrawMoneySchema>
 
-const {register, handleSubmit, formState:{errors}} =  useForm<AddMoney>({
-    resolver: zodResolver(addMoneySchema)
+const {register, handleSubmit, formState:{errors}} =  useForm<WithdrawMoney>({
+    resolver: zodResolver(withdrawMoneySchema)
 })
 
 const [loading, setLoading] = useState(false)
@@ -42,9 +42,10 @@ const [loading, setLoading] = useState(false)
 
  const percentSaved = pot?.currentSaved / pot?.target  * 100
 
- const handleAddMoney = async(data:AddMoney) =>{
+ const handleWithdrawMoney = async(data:WithdrawMoney) =>{
     setLoading(true)
-    const success = await addMoney(data.amount);
+
+    const success = await withdrawMoney(data.amount);
     setLoading(false)
 
     if(success){
@@ -55,7 +56,7 @@ const [loading, setLoading] = useState(false)
 
     return(
         <Dialog open={open} onOpenChange={setOpen} >
-            <DialogTrigger className="w-[50%] cursor-pointer bg-[#F8F4F0] rounded-[8px] text-[14px] font-[700] p-4 text-center " >+ Add money</DialogTrigger>
+            <DialogTrigger className="w-[50%] cursor-pointer bg-[#F8F4F0] rounded-[8px] text-[14px] font-[700] p-4 text-center " >Withdraw</DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                 <DialogTitle>Add to savings</DialogTitle>
@@ -83,7 +84,7 @@ const [loading, setLoading] = useState(false)
 
                 </div>
 
-                <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleAddMoney)} >
+                <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleWithdrawMoney)} >
                  <div className='flex flex-col gap-2 '>
                     <label className=" font-bold text-[#696868] text-[12px] "  htmlFor="amount">Amount to Add</label>
                     <div className="p-4 border-[#98908B] border-1 py-2 flex items-center gap-2  rounded-[8px] " >
@@ -100,7 +101,7 @@ const [loading, setLoading] = useState(false)
                      type="submit" 
                      disabled={loading}
                       className='w-full cursor-pointer flex items-center justify-center h-[53px] bg-[#201F24] rounded-[8px] text-white text-[14px] font-bold  ' >
-                       { loading? <Spinner /> : 'Confirm Addition'}
+                       { loading? <Spinner /> : 'Confirm Withdrawal'}
                         </button>
                 </form>
 

@@ -151,7 +151,51 @@ export  function useSinglePot(potId: string | null){
 
     }
 
-    return { pot, loading, error, updatePot, deletePot, addMoney };
+
+    const withdrawMoney =async(amount:number)=>{
+        
+        if(!potId)return;
+    
+         const auth = getAuth(app);
+        const db = getFirestore(app);
+        const user = auth.currentUser;
+
+    if (!pot) {
+        toast.error('Pot data not available');
+        return false;
+    }
+
+        if(!user){
+            toast.error('user not authenticated')
+            return false;
+        }
+
+        if(amount > pot?.currentSaved){
+            toast.error('insufficient balance')
+            return false;
+        }
+
+        try{
+            const potRef= doc(db, "users", user.uid, "pots", potId)
+            const newCurrentSaved = pot?.currentSaved - amount
+
+            await updateDoc(potRef, {
+                 currentSaved:newCurrentSaved
+            })
+
+            toast.success(`Successfully withdraw $${amount} from your pot!`);
+            return true;
+        }catch(error){
+            toast.error(`Error withdrawing money`);
+        return false;
+        }
+
+
+    }
+
+
+   
+    return { pot, loading, error, updatePot, deletePot, addMoney, withdrawMoney };
 
 
     }
