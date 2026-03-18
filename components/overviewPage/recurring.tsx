@@ -1,11 +1,9 @@
+'use client'
 import Link from "next/link";
 import Image from "next/image"
+import { useBills } from "@/lib/hooks/useBill";
 export default function RecurringCard(){
-    const billsArray=[
-        { id:1, description: 'Paid Bills', amount: '$0'},
-        { id:2, description: 'Total Upcoming', amount: '$0'},
-        { id:3, description: 'Due soon', amount: '$0'},
-    ]
+    const { totalMonthly, totalYearly, bills  } = useBills()
     return(
         <div className='w-full mt-4 bg-white p-8 rounded-[12px] '>
             <div className="flex justify-between mb-2  ">
@@ -14,14 +12,24 @@ export default function RecurringCard(){
             </div>
 
             <div className="flex items-start gap-2 flex-col">
-                {billsArray.map((bills)=>(
+            
 
 
-                <div key={bills.id} className={`flex items-center w-full justify-between rounded-[8px] border-l-4 bg-[#F8F4F0] p-5 ${bills.id===1? 'border-[#277C78]': bills.id===2? 'border-[#F2CDAC]': 'border-[#82C9D7]'} `} >
-                    <p>{bills.description}</p>
-                    <p>{bills.amount}</p>
+                <div className="flex items-center w-full justify-between rounded-[8px] border-l-4 bg-[#F8F4F0] p-5 border-[#277C78]" >
+                    <p>Total Bills</p>
+                    <p>{bills.length}</p>
                 </div>
-                ))}
+
+                  <div className="flex items-center w-full justify-between rounded-[8px] border-l-4 bg-[#F8F4F0] p-5  border-[#F2CDAC]" >
+                    <p>Monthly Bills</p>
+                    <p>{`$ ${totalMonthly}`}</p>
+                </div>
+
+                  <div  className="flex items-center w-full justify-between rounded-[8px] border-l-4 bg-[#F8F4F0] p-5 border-[#82C9D7]" >
+                    <p>Yearly Total</p>
+                    <p>{`$ ${totalYearly}`}</p>
+                </div>
+                
                 
             </div>
         </div>

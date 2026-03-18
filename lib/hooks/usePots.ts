@@ -1,5 +1,6 @@
+'use client'
 import { getAuth } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { app } from "../firebaseConfig";
 import { collection, getFirestore, onSnapshot, orderBy, query } from "firebase/firestore";
 
@@ -13,16 +14,9 @@ export interface Pot {
     createdAt: any;
 }
 
-
-
-
-
-
-
-
 export function usePot(){
     const [pots, setPots] = useState<Pot[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -58,7 +52,22 @@ export function usePot(){
         return () => unSubscribe();
     }, [])
 
-    return {pots,loading,error}
+    // Calculate total saved across all pots
+    const totalSaved = useMemo(() => {
+        return pots.reduce((total, pot) => total + (pot.currentSaved || 0), 0);
+    }, [pots]);
 
+    // Calculate total target across all pots
+    const totalTarget = useMemo(() => {
+        return pots.reduce((total, pot) => total + (pot.target || 0), 0);
+    }, [pots]);
 
+    return {
+        pots,
+        loading,
+        error,
+        totalSaved,
+        totalTarget
+    
+}
 }

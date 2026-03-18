@@ -1,15 +1,17 @@
+
 import { usePot } from "@/lib/hooks/usePots";
 import MoreBtn from "./morebtn";
 import { Progress } from "@/components/ui/progress"
 import { Spinner } from "../ui/spinner";
 import AddMoneyModal from "./addMoney";
 import WithdrawMoneyModal from "./withdrawMoney";
+import Link from "next/link";
 
-  interface MoreBtnProps {
-    potId: string;
-}
+//   interface MoreBtnProps {
+//     potId: string;
+// }
 
-export default function PotType({potId}:MoreBtnProps ){
+export default function PotType( ){
 
       const {pots,loading,error} = usePot();
     
@@ -24,8 +26,9 @@ export default function PotType({potId}:MoreBtnProps ){
     
         if(error){
             return(
-                <div className="w-full flex items-center justify-center p-8">
-                    <p className="text-red-500">Error: {error}</p>
+                <div className="w-full flex flex-col gap-4  items-center justify-center p-8">
+                    <p className="text-red-500 text-lg font-medium"> You have to log in to see your pots </p>
+                    <Link className="underline text-blue-400 p-3 rounded-lg text-lg font-medium "  href='login'>Sign In</Link>
                 </div>
             )
         }

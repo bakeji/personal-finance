@@ -3,6 +3,7 @@ import { Progress } from "@/components/ui/progress"
 import MoreBtn from "./moreBtn"
 import { useBudget } from "@/lib/hooks/useBudjet"
 import { Spinner } from "../ui/spinner";
+import Link from "next/link";
 
 
 
@@ -20,9 +21,10 @@ export default function BudgetType(){
 
     if(error){
         return(
-            <div className="w-full flex items-center justify-center p-8">
-                <p className="text-red-500">Error: {error}</p>
-            </div>
+            <div className="w-full flex flex-col gap-4  items-center justify-center p-8">
+                    <p className="text-red-500 text-lg font-medium"> You have to log in to see your pots </p>
+                    <Link className="underline text-blue-400 p-3 rounded-lg text-lg font-medium "  href='login'>Sign In</Link>
+                </div>
         )
     }
 
