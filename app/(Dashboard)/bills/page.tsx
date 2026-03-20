@@ -55,49 +55,36 @@ export default function BillsPage() {
 
     return (
         
-             <div className="flex min-h-screen w-full  max-lg:flex-col-reverse " >
-                <div className="w-1/4 top-0 sticky h-screen max-lg:w-full max-lg:h-auto ">
-                    <Menu/>
-                </div>
-                <div className="w-3/4 p-8 mb-20  max-lg:w-[98%] max-lg:p-6 max-lg:mx-auto">
-                    <BillsPageHeader onAddClick={() => setShowModal(true)} />
-                    
-                    {error?
-                           <div className="w-full flex flex-col gap-4  items-center justify-center p-8">
-                                <p className="text-red-500 text-lg font-medium"> You have to log in to see your pots </p>
-                                <Link className="underline text-blue-400 p-3 rounded-lg text-lg font-medium "  href='login'>Sign In</Link>
-                            </div>
+               <ProtectedRoute>
+                    <div className=" p-8 w-full ">
+                        <BillsPageHeader onAddClick={() => setShowModal(true)} />
+                        
+                        
+                        <BillSummaryCards 
+                            totalBills={bills.length}
+                            totalMonthly={totalMonthly}
+                            totalYearly={totalYearly}
+                        />
 
-                                        :
-                    
-                    
-                     
-                     <>
-                    
-                    <BillSummaryCards 
-                        totalBills={bills.length}
-                        totalMonthly={totalMonthly}
-                        totalYearly={totalYearly}
-                    />
+                        <BillsList 
+                            bills={bills}
+                            onTogglePaid={handleTogglePaid}
+                            onDelete={handleDelete}
+                            onAddClick={() => setShowModal(true)}
+                        />
 
-                    <BillsList 
-                        bills={bills}
-                        onTogglePaid={handleTogglePaid}
-                        onDelete={handleDelete}
-                        onAddClick={() => setShowModal(true)}
-                    />
-
-                    <AddBillModal 
-                        isOpen={showModal}
-                        onClose={() => setShowModal(false)}
-                        onSubmit={handleSubmit}
-                    />
-                    </>
-}
+                        <AddBillModal 
+                            isOpen={showModal}
+                            onClose={() => setShowModal(false)}
+                            onSubmit={handleSubmit}
+                        />
+                    </div>
+               </ProtectedRoute>
+                
 
 
-                </div>
-            </div>    
+
+            
     
     )
 }
