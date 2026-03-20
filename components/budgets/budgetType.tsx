@@ -9,6 +9,23 @@ import { useBudget } from "@/lib/hooks/useBudjet"
 export default function BudgetType(){
     const {budgets} = useBudget();
 
+    if(!budgets || budgets.length === 0){
+    return(
+        <div className="bg-white p-8 md:p-12 rounded-xl text-center w-full border-2 border-dashed border-[#F8F4F0]">
+            <div className="flex flex-col items-center justify-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8F4F0] rounded-full flex items-center justify-center mb-4">
+                    <span className="text-4xl md:text-5xl">💰</span>
+                </div>
+                
+                <h3 className="text-lg md:text-xl font-bold text-[#201F24] mb-2">No Budgets </h3>
+                <p className="text-sm md:text-base text-[#696868] max-w-md">
+                    You haven't created any budgets yet. Start managing your spending by setting up budget categories.
+                </p>
+            </div>
+        </div>
+    )
+}
+
     
 
 

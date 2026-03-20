@@ -2,10 +2,9 @@
 import { usePot } from "@/lib/hooks/usePots";
 import MoreBtn from "./morebtn";
 import { Progress } from "@/components/ui/progress"
-import { Spinner } from "../ui/spinner";
 import AddMoneyModal from "./addMoney";
 import WithdrawMoneyModal from "./withdrawMoney";
-import Link from "next/link";
+
 
 //   interface MoreBtnProps {
 //     potId: string;
