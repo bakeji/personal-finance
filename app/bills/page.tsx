@@ -59,7 +59,7 @@ export default function BillsPage() {
                 <div className="w-1/4 top-0 sticky h-screen max-lg:w-full max-lg:h-auto ">
                     <Menu/>
                 </div>
-                <div className="w-3/4 p-8  max-lg:w-[98%] max-lg:p-6 max-lg:mx-auto">
+                <div className="w-3/4 p-8 mb-20  max-lg:w-[98%] max-lg:p-6 max-lg:mx-auto">
                     <BillsPageHeader onAddClick={() => setShowModal(true)} />
                     
                     {error?

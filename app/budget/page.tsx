@@ -12,7 +12,7 @@ export default function Budget(){
                 <Menu/>
             </div>
 
-            <div className="w-3/4 p-8  max-lg:w-[98%] max-lg:p-6 max-lg:mx-auto">
+            <div className="w-3/4 p-8 mb-20  max-lg:w-[98%] max-lg:p-6 max-lg:mx-auto">
                 <div className="flex justify-between ">
                     <h1 className="text-[32px] font-[700] text-[#201F24] " >Budgets</h1>
                     <AddNewBudgetModal />
