@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { Eye, EyeOff } from "lucide-react"; // Add this import
+
 export default function SignUpForn(){
 
 const userSchema =z.object({
@@ -24,6 +26,7 @@ const {register, handleSubmit, formState:{errors}} =  useForm<User>({
     resolver: zodResolver(userSchema)
 })
 const [loading, setLoading] = useState(false);
+const [showPassword, setShowPassword] = useState(false); // Add this state
 const router = useRouter()
 
  async function onSubmit(data:User){
@@ -71,9 +74,25 @@ const router = useRouter()
                         {errors.email && <p className="text-red-500 text-[12px]">{errors.email.message}</p>}
                     </div>
 
-                    <div  className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2">
                         <label className="text-[#696868] text-[12px] font-bold " htmlFor="password">Password</label>
-                        <input {...register('password')} className="rounded-[8px] border-[#98908B] border p-2  flex w-full outline-none" type="password" name="password" id="password" />
+                        <div className="relative w-full">
+                            <input 
+                                {...register('password')} 
+                                className="rounded-[8px] border-[#98908B] border p-2 pr-10 w-full outline-none" 
+                                type={showPassword ? "text" : "password"} 
+                                name="password" 
+                                id="password" 
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-[#696868] hover:text-[#201F24] transition-colors"
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
                         <p className={`text-right ${errors.password?"text-red-500": "text-[#696868] "} text-[12px] font-normal`}>Passwords must be at least 8 characters</p>
                         {/* {errors.password && <p className="text-red-500 text-[12px]">{errors.password.message}</p>}   */}
                     </div>
