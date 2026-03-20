@@ -1,0 +1,12 @@
+import LoginForm from "@/components/auth/loginForm";
+import HeroImg from "@/components/auth/hero-img";
+import ForgotPasswordForm from "@/components/auth/resetForm";
+
+export default function(){
+    return(
+        <div className="p-2 flex h-screen items-center justify-between w-full max-lg:flex-col max-lg:justify-start max-lg:gap-10 max-lg:p-0 " >
+            <HeroImg/>
+            <ForgotPasswordForm />
+        </div>
+    )
+}
