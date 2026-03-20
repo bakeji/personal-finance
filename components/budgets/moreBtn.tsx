@@ -7,6 +7,7 @@ import {
 import EditBudgetModal from "./editBudgetModal";
 import { useState } from "react";
 import DeletePotModal from "../pots/deletePotModal";
+import DeleteBudgetModal from "./deleteBudgetModal";
 
   interface MoreBtnProps {
     budgetId: string;
@@ -24,7 +25,7 @@ export default function MoreBtn({ budgetId }: MoreBtnProps){
             </PopoverTrigger>
             <PopoverContent className=' flex flex-col items-start justify-center  w-full ' >
                 <EditBudgetModal  budgetId={budgetId} />
-                <DeletePotModal budgetId={budgetId}  />
+                <DeleteBudgetModal budgetId={budgetId}  />
         
             </PopoverContent>
         </Popover>
