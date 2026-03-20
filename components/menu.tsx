@@ -2,10 +2,28 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useState, createContext, useContext } from "react"
+
+// Create context for minimize state
+const MenuContext = createContext({
+    isMinimized: false,
+    setIsMinimized: (value: boolean) => {}
+})
+
+export const useMenuContext = () => useContext(MenuContext)
+
+export function MenuProvider({ children }: { children: React.ReactNode }) {
+    const [isMinimized, setIsMinimized] = useState(false)
+    
+    return (
+        <MenuContext.Provider value={{ isMinimized, setIsMinimized }}>
+            {children}
+        </MenuContext.Provider>
+    )
+}
 
 export default function Menu(){
-    const [isMinimized, setIsMinimized] = useState(false)
+    const { isMinimized, setIsMinimized } = useMenuContext()
     
     const navLinks =[
         {img: '/overview.png', activeImg:'/overview-active.png', link: '/', linkName:'Overview', shortName: 'Overview' },
@@ -19,7 +37,7 @@ export default function Menu(){
         <div className={`bg-[#201F24] h-full flex flex-col rounded-r-2xl gap-4 transition-all duration-300
         lg:sticky lg:top-0 lg:h-screen lg:flex-col lg:rounded-r-2xl
         max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0 max-lg:h-[84px] max-lg:flex-row max-lg:rounded-t-2xl max-lg:rounded-br-none max-lg:rounded-bl-none max-lg:z-[9999]
-        ${isMinimized ? 'lg:w-[80px]' : 'lg:w-full'}
+        ${isMinimized ? 'lg:w-[80px]' : 'lg:w-[300px]'}
         `}>
             
             {/* Logo - Desktop only */}
