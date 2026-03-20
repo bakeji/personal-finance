@@ -7,8 +7,7 @@ import { app } from "@/lib/firebaseConfig";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Spinner } from "@/components/ui/spinner";
-
+import { Spinner } from "../ui/spinner";
 
 export default function ForgotPasswordForm() {
     const forgotPasswordSchema = z.object({
@@ -28,7 +27,14 @@ export default function ForgotPasswordForm() {
         setLoading(true);
         try {
             const auth = getAuth(app);
-            await sendPasswordResetEmail(auth, data.email);
+            
+            // Configure action code settings with your custom URL
+            const actionCodeSettings = {
+                url: `${window.location.origin}/reset-password`, // Custom reset page
+                handleCodeInApp: true,
+            };
+            
+            await sendPasswordResetEmail(auth, data.email, actionCodeSettings);
             setEmailSent(true);
             toast.success('Password reset email sent! Check your inbox.');
         } catch (error) {

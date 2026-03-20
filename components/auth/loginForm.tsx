@@ -78,7 +78,7 @@ export default function LoginForm(){
                     <button className="bg-[#201F24] text-center flex items-center justify-center cursor-pointer rounded-[8px] p-2 text-white font-[700] text-[14px] " type="submit">{loading? <Spinner/> : "Login"}</button>
                 </form>
                 <p className="text-[#696868] text-center  text-[14px] font-normal mt-5 ">Need to create an account? <span className="text-[#201F24] font-bold" >  <Link className="underline" href="/signup"> Sign up </Link> </span></p>
-                <Link href="/resetPassword" className="text-[#201F24] flex items-center w-[40%] mx-auto mt-1 text-[12px]  font-bold underline ">
+                <Link href="/forgot-password" className="text-[#201F24] flex items-center w-[40%] mx-auto mt-1 text-[12px]  font-bold underline ">
                     Forgot Password?
                 </Link>
             </div>

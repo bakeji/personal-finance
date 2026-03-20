@@ -1,6 +1,6 @@
 import LoginForm from "@/components/auth/loginForm";
 import HeroImg from "@/components/auth/hero-img";
-import ForgotPasswordForm from "@/components/auth/resetForm";
+import ForgotPasswordForm from "@/components/auth/forgetForm";
 
 export default function(){
     return(
