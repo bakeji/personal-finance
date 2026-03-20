@@ -8,10 +8,10 @@ export default function Menu(){
     const [isMinimized, setIsMinimized] = useState(false)
     
     const navLinks =[
-        {img: '/overview.png', activeImg:'/overview-active.png', link: '/', linkName:'Overview' },
-        {img: '/budgets.png', activeImg:'/budget-active.png', link: '/budget', linkName:'Budget' },
-        {img: '/pots.png', activeImg:'/pots-active.png', link: '/pots', linkName:'Pots' },
-        {img: '/bills.png', activeImg:'/bills-active.png', link: '/bills', linkName:'Recurring Bills' },
+        {img: '/overview.png', activeImg:'/overview-active.png', link: '/', linkName:'Overview', shortName: 'Overview' },
+        {img: '/budgets.png', activeImg:'/budget-active.png', link: '/budget', linkName:'Budget', shortName: 'Budget' },
+        {img: '/pots.png', activeImg:'/pots-active.png', link: '/pots', linkName:'Pots', shortName: 'Pots' },
+        {img: '/bills.png', activeImg:'/bills-active.png', link: '/bills', linkName:'Recurring Bills', shortName: 'Bills' },
     ]
     const path = usePathname()
 
@@ -29,7 +29,7 @@ export default function Menu(){
             
             {/* Navigation Container */}
             <div className="flex flex-col justify-between h-full 
-            max-lg:flex-row max-lg:w-full max-lg:px-4 max-lg:py-2">
+            max-lg:flex-row max-lg:w-full max-lg:px-2 max-lg:py-2">
                 
                 {/* Nav Links */}
                 <div className="flex flex-col gap-2 
@@ -50,7 +50,7 @@ export default function Menu(){
                                 
                                 max-lg:flex-col max-lg:justify-center max-lg:items-center max-lg:gap-1 
                                 max-lg:flex-1 max-lg:h-full max-lg:rounded-t-xl max-lg:rounded-r-none 
-                                max-lg:border-l-0 max-lg:p-2
+                                max-lg:border-l-0 max-lg:p-2 max-lg:min-w-0
                                 ${path === nav.link && 'max-lg:border-t-4 max-lg:border-l-0'}
                             `}
                             title={isMinimized ? nav.linkName : undefined}
@@ -60,12 +60,15 @@ export default function Menu(){
                                 width={24} 
                                 height={24} 
                                 alt={nav.linkName}
-                                className="max-lg:w-6 max-lg:h-6"
+                                className="max-lg:w-5 max-lg:h-5 flex-shrink-0"
                             />
-                            <span className={`font-bold text-[16px] max-lg:text-[10px] max-lg:text-center max-lg:leading-tight transition-all duration-300
+                            <span className={`font-bold transition-all duration-300
+                                lg:text-[16px]
+                                max-lg:text-[9px] max-lg:text-center max-lg:leading-tight max-lg:whitespace-nowrap max-lg:overflow-hidden max-lg:text-ellipsis max-lg:w-full
                                 ${isMinimized ? 'lg:hidden' : 'lg:block'}
                             `}>
-                                {nav.linkName}
+                                <span className="lg:hidden">{nav.shortName}</span>
+                                <span className="max-lg:hidden">{nav.linkName}</span>
                             </span>
                         </Link>
                     ))}

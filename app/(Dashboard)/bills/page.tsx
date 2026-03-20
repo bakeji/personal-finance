@@ -56,7 +56,7 @@ export default function BillsPage() {
     return (
         
                <ProtectedRoute>
-                    <div className=" p-8 w-full ">
+                    <div className="p-8 w-full  ">
                         <BillsPageHeader onAddClick={() => setShowModal(true)} />
                         
                         

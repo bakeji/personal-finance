@@ -25,7 +25,7 @@ export default function Budget(){
          <ProtectedRoute>
                 <div className="p-8 w-full ">
                     <div className="flex justify-between ">
-                        <h1 className="text-[32px] font-[700] text-[#201F24] " >Budgets</h1>
+                        <h1 className="text-[32px] font-bold text-[#201F24] " >Budgets</h1>
                         <AddNewBudgetModal />
                     
                     </div>
