@@ -3,7 +3,7 @@ import SignUpForn from "@/components/auth/signupForm";
 
 export default function Signup(){
     return(
-        <div className="p-2 flex h-screen items-center justify-between w-full max-lg:flex-col max-lg:p-0 max-lg:gap-8 max-lg:justify-normal ">
+        <div className="p-2 flex h-screen items-center justify-between w-full max-lg:flex-col max-lg:p-0 max-lg:justify-start max-lg:gap-10 ">
             <HeroImg/>
             <SignUpForn/>
         </div>
