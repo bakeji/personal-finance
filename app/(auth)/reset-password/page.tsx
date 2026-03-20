@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAuth, confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth";
 import { app } from "@/lib/firebaseConfig";
@@ -11,7 +11,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
-export default function ResetPasswordPage() {
+// Separate component that uses useSearchParams
+function ResetPasswordContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ export default function ResetPasswordPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const oobCode = searchParams.get('oobCode'); // This is the reset code from the email link
+    const oobCode = searchParams.get('oobCode');
 
     const resetPasswordSchema = z.object({
         password: z.string().min(8, "Password must be at least 8 characters long"),
@@ -37,7 +38,6 @@ export default function ResetPasswordPage() {
         resolver: zodResolver(resetPasswordSchema),
     });
 
-    // Verify the reset code when component mounts
     useEffect(() => {
         async function verifyCode() {
             if (!oobCode) {
@@ -49,7 +49,6 @@ export default function ResetPasswordPage() {
 
             try {
                 const auth = getAuth(app);
-                // Verify the password reset code is valid
                 const email = await verifyPasswordResetCode(auth, oobCode);
                 setUserEmail(email);
                 setValidCode(true);
@@ -80,7 +79,6 @@ export default function ResetPasswordPage() {
         setLoading(true);
         try {
             const auth = getAuth(app);
-            // Reset the password
             await confirmPasswordReset(auth, oobCode, data.password);
             toast.success("Password reset successfully! You can now login with your new password.");
             router.push('/login');
@@ -96,7 +94,6 @@ export default function ResetPasswordPage() {
         }
     }
 
-    // Show loading state while verifying the code
     if (verifying) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -110,7 +107,6 @@ export default function ResetPasswordPage() {
         );
     }
 
-    // Show error state if code is invalid
     if (!validCode) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -127,12 +123,19 @@ export default function ResetPasswordPage() {
                     >
                         Request New Reset Link
                     </Link>
+                    <p className="text-[#696868] text-center text-[14px] font-normal mt-5">
+                        Remember your password?{' '}
+                        <span className="text-[#201F24] font-bold">
+                            <Link className="underline" href="/login">
+                                Login
+                            </Link>
+                        </span>
+                    </p>
                 </div>
             </div>
         );
     }
 
-    // Show the reset password form
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="bg-white p-8 rounded-[12px] shadow-sm w-[90%] max-w-md">
@@ -218,5 +221,23 @@ export default function ResetPasswordPage() {
                 </p>
             </div>
         </div>
+    );
+}
+
+// Main component that wraps ResetPasswordContent in Suspense
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="bg-white p-8 rounded-[12px] shadow-sm">
+                    <div className="flex flex-col items-center gap-4">
+                        <Spinner />
+                        <p className="text-[#696868] text-[14px]">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        }>
+            <ResetPasswordContent />
+        </Suspense>
     );
 }
